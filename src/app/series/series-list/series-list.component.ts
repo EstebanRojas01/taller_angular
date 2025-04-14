@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SerieService } from '../series.service';
 import { Serie } from '../series';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-serie-list',
@@ -14,11 +13,11 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 export class SerieListComponent implements OnInit {
   series: Serie[] = [];
   averageSeasons: number = 0;
-  selectedSerie: number | null = null;
+  selectedSerie: Serie | null = null;
+  
 
   constructor(
     private readonly serieService: SerieService,
-    private readonly sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -35,10 +34,8 @@ export class SerieListComponent implements OnInit {
   }
 
   toggleDetails(index: number): void {
-    this.selectedSerie = index;
+    this.selectedSerie = this.series[index];
+    console.log(this.selectedSerie)
   }
 
-  sanitizeUrl(url: string): SafeResourceUrl {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
-  }
 }
